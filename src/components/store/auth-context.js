@@ -29,7 +29,7 @@ export const AuthContextProvider = (props) => {
             localStorage.setItem('isLoggedIn', '1');
             setIsLoggedIn(true);
         } else {
-            alert("Inalid User!")
+            alert("Invalid User!");
         }
     }
 
