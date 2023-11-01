@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Home.module.css';
@@ -8,6 +8,36 @@ import Button from '../UI/Button/Button';
 const Home = (props) => {
 
   const authCtx = useContext(AuthContext);
+
+  var timerID = null;
+  function createTimer() {
+    timerID = setTimeout(() => {
+      authCtx.onLogout();
+    }, 10000)
+  }
+
+  function deleteTimer() {
+    clearTimeout(timerID);
+  }
+
+  useEffect(() => {
+    createTimer();
+    function handleEvent() {
+      deleteTimer();
+      createTimer();
+    }
+
+    window.addEventListener('click', handleEvent)
+    window.addEventListener('mousemove', handleEvent)
+    window.addEventListener('keydown', handleEvent)
+
+    return () => {
+      window.removeEventListener('click', handleEvent)
+      window.removeEventListener('mousemove', handleEvent)
+      window.removeEventListener('keydown', handleEvent)
+    }
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <Card className={classes.home}>
